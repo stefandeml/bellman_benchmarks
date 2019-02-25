@@ -1,0 +1,25 @@
+[package]
+authors = ["Stefan Deml<stefandeml@gmail.com>"]
+description = "Bellman scaling benchmarks"
+license = "MIT/Apache-2.0"
+name = "bellman-benchmarks"
+version = "0.0.1"
+edition = "2018"
+
+[lib]
+name = "benchmarks"
+path = "src/lib.rs"
+
+[dependencies]
+rand = "0.4"
+hex = "0.3.2"
+time = "0.1"
+num-bigint = "0.2"
+rust-crypto = "0.2"
+
+ff = { git = 'https://github.com/matterinc/ff', features = ["derive"] }
+pairing = { git = 'https://github.com/matterinc/pairing' }
+sapling-crypto = { git = 'https://github.com/matterinc/sapling-crypto' }
+bellman = { git = 'https://github.com/matterinc/bellman' }
+
+
