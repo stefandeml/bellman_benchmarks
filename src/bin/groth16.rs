@@ -4,7 +4,8 @@ use std::env;
 
 extern crate bellman;
 extern crate benchmarks;
-extern crate pairing;
+//extern crate pairing;
+use bellman::pairing;
 extern crate rand;
 use benchmarks::circuit::Blake2sBench;
 use rand::{Rng, SeedableRng, XorShiftRng};
@@ -18,8 +19,10 @@ fn main() {
     use bellman::groth16::{
         create_random_proof, generate_random_parameters, prepare_verifying_key, verify_proof, Proof,
     };
-    use ff::Field;
-    use ff::PrimeField;
+//    use ff::Field;
+//    use ff::PrimeField;
+    use bellman::pairing::ff::PrimeField;
+    use bellman::pairing::ff::Field;
     use pairing::bls12_381::{Bls12, Fr};
     use rand::thread_rng;
 

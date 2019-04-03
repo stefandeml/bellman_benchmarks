@@ -3,12 +3,13 @@
 
 use rand::thread_rng;
 
-use ff::{BitIterator, Field, PrimeField, PrimeFieldRepr};
+//use ff::{BitIterator, Field, PrimeField, PrimeFieldRepr};
 
+use bellman::pairing;
 use pairing::Engine;
 
 // We're going to use the BLS12-381 pairing-friendly elliptic curve.
-use pairing::bls12_381::{Bls12, Fr};
+use pairing::bls12_381::{Fr};
 
 use sapling_crypto::circuit::{blake2s, boolean, ecc, multipack, num, Assignment};
 
@@ -22,6 +23,7 @@ use bellman::groth16::{
 };
 
 // We have some dummy input variable.
+#[derive(Debug, Clone, Copy)]
 pub struct Blake2sBench<E: Engine> {
     pub num_bytes: i32,
     pub dummy: Option<E::Fr>,
