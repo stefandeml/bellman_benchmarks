@@ -30,6 +30,8 @@ We use the blake2s hashing circuit as a basis and conduct runs for several pre-i
 | 2M             	| 6144       	| 14.3                   	| 2735               	| 112              	| 31                  	| 162                  	| 4.2                 	| 15.6                	| 4.2                      	|
 
 Some additional runs with varying batch size:
+
+
 | NumConstraints 	| Byte input 	| BatchSize 	| MinMemoryPerExecutorGB 	| RunTimeParamGenSec 	| RunTimeProverSec 	| RunTimeCreateAdvice 	| RunTimeGenAggregate 	| RunTimeVerify1 	| RunTimeVerifyBatch 	| RunTimeVerifyBatchAggregated 	|
 |----------------	|------------	|-----------	|------------------------	|--------------------	|------------------	|---------------------	|---------------------	|---------------------	|--------------------	|------------------------------	|
 | 128K           	| 384        	| 3         	| 0.9                    	| 170                	| 7.9              	| 2.4                 	| 9                   	| 285ms               	| 646ms              	| 300ms                        	|
