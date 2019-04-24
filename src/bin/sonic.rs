@@ -1,5 +1,3 @@
-#![allow(unused_imports)]
-#![allow(unused_variables)]
 use std::env;
 
 extern crate bellman;
@@ -15,22 +13,18 @@ use std::io::prelude::*;
 fn main() {
     let args: Vec<String> = env::args().collect();
     let num_bytes = args[1].clone().parse().unwrap();
+    let samples = args[2].clone().parse().unwrap();
 
-    use bellman::pairing::ff::PrimeField;
     use bellman::pairing::ff::Field;
-    use rand::thread_rng;
+    use bellman::pairing::ff::PrimeField;
     use bellman::sonic::helped::{
-        generate_random_parameters,
-        verify_aggregate,
-        verify_proofs,
-        create_proof,
-        create_advice,
-        create_aggregate,
-        get_circuit_parameters
+        create_advice, create_aggregate, create_proof, generate_random_parameters,
+        get_circuit_parameters, verify_aggregate, verify_proofs,
     };
     use pairing::bn256::{Bn256, Fr};
-    use std::time::{Instant};
-    let samples: usize = 3;
+    use rand::thread_rng;
+    use std::time::Instant;
+    //let samples: usize = 3;
 
     // This may not be cryptographically safe, use
     // `OsRng` (for example) in production software.
@@ -59,8 +53,17 @@ fn main() {
     let input_vec = vec![vec![dummy.unwrap()]];
     println!("verifying 1 proof without advice");
     let start = Instant::now();
-    assert_eq!(verify_proofs(&vec![proof.clone()], &input_vec[..], circuit.clone(),
-                             rng, &params).unwrap(), true);
+    assert_eq!(
+        verify_proofs(
+            &vec![proof.clone()],
+            &input_vec[..],
+            circuit.clone(),
+            rng,
+            &params
+        )
+        .unwrap(),
+        true
+    );
     println!("done in {:?}", start.elapsed());
 
     println!("creating advice for circuit");
@@ -71,7 +74,9 @@ fn main() {
     let input_vec = vec![vec![dummy.unwrap()]; samples];
     println!("creating aggregate for {} proofs", samples);
     let start = Instant::now();
-    let proofs: Vec<_> = (0..samples).map(|_| (proof.clone(), advice.clone())).collect();
+    let proofs: Vec<_> = (0..samples)
+        .map(|_| (proof.clone(), advice.clone()))
+        .collect();
     let aggregate = create_aggregate::<Bn256, _>(circuit.clone(), &proofs, &params);
     println!("done in {:?}", start.elapsed());
 
@@ -79,8 +84,17 @@ fn main() {
         println!("verifying {} proofs without advice", samples);
         let rng = thread_rng();
         let start = Instant::now();
-        assert_eq!(verify_proofs(&vec![proof.clone(); samples], &input_vec, circuit.clone(), rng,
-                                 &params).unwrap(), true);
+        assert_eq!(
+            verify_proofs(
+                &vec![proof.clone(); samples],
+                &input_vec,
+                circuit.clone(),
+                rng,
+                &params
+            )
+            .unwrap(),
+            true
+        );
         println!("done in {:?}", start.elapsed());
     }
 
@@ -88,8 +102,18 @@ fn main() {
         println!("verifying {} proofs with advice and aggregate", samples);
         let rng = thread_rng();
         let start = Instant::now();
-        assert_eq!(verify_aggregate(&vec![(proof.clone(), advice.clone()); samples], &aggregate,
-                                    &input_vec, circuit.clone(), rng, &params).unwrap(), true);
+        assert_eq!(
+            verify_aggregate(
+                &vec![(proof.clone(), advice.clone()); samples],
+                &aggregate,
+                &input_vec,
+                circuit.clone(),
+                rng,
+                &params
+            )
+            .unwrap(),
+            true
+        );
         println!("done in {:?}", start.elapsed());
     }
 }
